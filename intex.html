@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./intex.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="./images/weather.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <div class="card">
+
+        <!-- 🔍 SEARCH BAR -->
+        <div class="search">
+            <input type="text" placeholder="Enter city name..." spellcheck="false">
+
+            <button class="search-btn">
+                <img src="images/search.png" alt="search">
+            </button>
+
+            <button class="location-btn" title="Use my location">
+                <img src="images/placeholder.png" alt="location">
+            </button>
+        </div>
+
+        <!-- 🌧️ WEATHER ANIMATIONS -->
+        <div class="rain"></div>
+        <div class="clouds"></div>
+        <div class="lightning"></div>
+
+        <!-- 🌦️ WEATHER INFO -->
+        <div class="weather">
+            <img src="images/rain.png" class="weather-icon" alt="weather icon">
+
+            <h1 class="temp">--°c</h1>
+            <h2 class="city">Loading...</h2>
+
+            <div class="details">
+
+                <div class="col">
+                    <img src="images/humidity.png" alt="humidity">
+                    <div class="humidity">--%</div>
+                    <p>Humidity</p>
+                </div>
+
+                <div class="col">
+                    <img src="images/wind.png" alt="wind">
+                    <div class="wind">-- km/h</div>
+                    <p>Wind Speed</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ⚡ SCRIPT -->
+    <script>
+        const apikey = "364b34e7b1a639591a6e4f93f4d48f66";
+        const apiurlCity = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+        const apiurlCoords = "https://api.openweathermap.org/data/2.5/weather";
+
+        // Elements
+        const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search-btn");
+        const locationBtn = document.querySelector(".location-btn");
+        const weatherIcon = document.querySelector(".weather-icon");
+
+        // 🌧️ CREATE RAIN
+        function createRain() {
+            const rain = document.querySelector(".rain");
+            rain.innerHTML = "";
+
+            for (let i = 0; i < 60; i++) {
+                let drop = document.createElement("span");
+                drop.style.left = Math.random() * 100 + "%";
+                drop.style.animationDuration = (0.5 + Math.random()) + "s";
+                rain.appendChild(drop);
+            }
+        }
+
+        // 🔍 CITY SEARCH
+        async function checkWeather(city) {
+            if (city === "") return;
+
+            showLoading("Loading...");
+
+            let response = await fetch(apiurlCity + city + `&appid=${apikey}`);
+            let data = await response.json();
+
+            if (data.cod === "404") {
+                alert("City not found ❌");
+                return;
+            }
+
+            updateUI(data);
+        }
+
+        // 📍 LOCATION WEATHER
+        async function getWeatherByLocation(lat, lon) {
+            showLoading("Detecting...");
+
+            let response = await fetch(
+                `${apiurlCoords}?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`
+            );
+
+            let data = await response.json();
+
+            updateUI(data);
+        }
+
+        // 🌍 AUTO LOCATION ON LOAD
+        window.addEventListener("load", () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        getWeatherByLocation(pos.coords.latitude, pos.coords.longitude);
+                    },
+                    () => {
+                        checkWeather("New York");
+                    }
+                );
+            } else {
+                checkWeather("New York");
+            }
+        });
+
+        // 🎨 UPDATE UI
+        function updateUI(data) {
+            document.querySelector(".city").innerHTML = data.name;
+            document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
+            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+            document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+
+           const condition = data.weather[0].description.toLowerCase();
+
+// Reset effects
+document.querySelector(".rain").innerHTML = "";
+document.querySelector(".clouds").style.display = "none";
+
+if (condition.includes("cloud")) {
+    weatherIcon.src = "images/clouds.png";
+    document.querySelector(".clouds").style.display = "block";
+
+} else if (condition.includes("clear")) {
+    weatherIcon.src = "images/clear.png";
+
+} else if (condition.includes("rain")) {
+    weatherIcon.src = "images/rain.png";
+    createRain();
+
+} else if (condition.includes("drizzle")) {
+    weatherIcon.src = "images/drizzle.png";
+    createRain();
+
+} else if (condition.includes("mist") || condition.includes("fog")) {
+    weatherIcon.src = "images/mist.png";
+
+} else if (condition.includes("snow")) {
+    weatherIcon.src = "images/snow.png";
+
+} else if (condition.includes("thunderstorm")) {
+    weatherIcon.src = "images/rain.png";
+    createRain();
+    triggerLightning();
+
+} else {
+    weatherIcon.src = "images/clear.png"; // fallback
+}}
+
+function triggerLightning() {
+    const lightning = document.querySelector(".lightning");
+
+    lightning.classList.add("flash");
+
+    setTimeout(() => {
+        lightning.classList.remove("flash");
+    }, 200);
+}
+
+        // ⏳ LOADING STATE
+        function showLoading(text) {
+            document.querySelector(".city").innerHTML = text;
+            document.querySelector(".temp").innerHTML = "--";
+        }
+
+        // 🖱️ EVENTS
+        searchBtn.addEventListener("click", () => {
+            checkWeather(searchBox.value);
+        });
+
+        searchBox.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                checkWeather(searchBox.value);
+            }
+        });
+
+        locationBtn.addEventListener("click", () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        getWeatherByLocation(
+                            position.coords.latitude,
+                            position.coords.longitude
+                        );
+                    },
+                    () => {
+                        alert("Location access denied ❌");
+                    }
+                );
+            }
+        });
+    </script>
+
+</body>
+</html>

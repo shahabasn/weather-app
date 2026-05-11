@@ -1,0 +1,296 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: 90%;
+    max-width: 470px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    margin: 0 auto;
+    border-radius: 28px;
+    padding: 40px 35px;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.search {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.search input {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    outline: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    padding: 10px 25px;
+    height: 58px;
+    border-radius: 30px;
+    flex: 1;
+    margin-right: 14px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.search input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search input:focus {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(0, 254, 186, 0.6);
+    box-shadow: 0 0 0 3px rgba(0, 254, 186, 0.15);
+}
+
+.search button {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    outline: 0;
+    background: linear-gradient(135deg, rgba(0, 254, 186, 0.3), rgba(91, 84, 138, 0.4));
+    border-radius: 50%;
+    width: 58px;
+    height: 58px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.location-btn {
+    margin-left: 10px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #ff9966, #ff5e62);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.location-btn:hover {
+    transform: scale(1.0);
+    box-shadow: 0 0 15px #ff5e62;
+}
+
+.search button:hover {
+    background: linear-gradient(135deg, rgba(0, 254, 186, 0.55), rgba(91, 84, 138, 0.65));
+    transform: scale(1.07);
+    box-shadow: 0 0 18px rgba(0, 254, 186, 0.35);
+}
+
+.search button img {
+    width: 16px;
+}
+
+.weather-icon {
+    width: 150px;
+    margin-top: 32px;
+    filter: drop-shadow(0 0 18px rgba(0, 254, 186, 0.5));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+}
+
+.weather h1 {
+    font-size: 76px;
+    font-weight: 500;
+    background: linear-gradient(135deg, #fff, #00feba);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-top: 6px;
+    letter-spacing: -2px;
+}
+
+.weather h2 {
+    font-size: 28px;
+    font-weight: 300;
+    margin-top: -8px;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 20px;
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    gap: 10px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+}
+
+.col img {
+    width: 36px;
+    filter: drop-shadow(0 0 6px rgba(0, 254, 186, 0.4));
+}
+
+.col div {
+    font-size: 22px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.col p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+/* 🌧️ RAIN */
+.rain span {
+    position: absolute;
+    width: 2px;
+    height: 18px;
+    background: rgba(255,255,255,0.6);
+    animation: rainFall linear infinite;
+}
+
+@keyframes rainFall {
+    0% { transform: translateY(-100px); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translateY(600px); opacity: 0; }
+}
+
+/* ⚡ LIGHTNING */
+.lightning {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.flash {
+    animation: flash 0.2s ease;
+}
+
+@keyframes flash {
+    0% { opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+/* ☁️ CLOUDS */
+.clouds {
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    background: url('images/clouds.png') repeat-x;
+    opacity: 0.2;
+    animation: moveClouds 60s linear infinite;
+    display: none;
+}
+
+@keyframes moveClouds {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* 🌞 SUN GLOW */
+.sunny {
+    box-shadow: 0 0 100px rgba(255, 223, 0, 0.6) inset;
+}
+
+/* 🌙 NIGHT MODE */
+.night {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+/* 📱 MOBILE (max 600px) */
+@media (max-width: 600px) {
+
+    .card {
+        padding: 25px 18px;
+        border-radius: 20px;
+    }
+
+    .search {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    .search input {
+        height: 50px;
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+
+    .search button,
+    .location-btn {
+        width: 48px;
+        height: 48px;
+    }
+
+    .weather-icon {
+        width: 100px;
+    }
+
+    .weather h1 {
+        font-size: 48px;
+    }
+
+    .weather h2 {
+        font-size: 20px;
+    }
+
+    .details {
+        flex-direction: column;
+        gap: 15px;
+        padding: 18px;
+    }
+
+    .col div {
+        font-size: 18px;
+    }
+}
+
+/* 📱 TABLET (600px - 900px) */
+@media (min-width: 601px) and (max-width: 900px) {
+    .card {
+        max-width: 380px;
+        padding: 30px;
+    }
+
+    .weather h1 {
+        font-size: 60px;
+    }
+}
