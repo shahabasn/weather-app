@@ -2,217 +2,245 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Weather App</title>
-
-    <!-- CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
-
-    <!-- Favicon -->
     <link rel="icon" href="./images/weather.png" type="image/x-icon">
 </head>
 
 <body>
 
+    <div class="stars" id="stars"></div>
+
     <div class="card">
 
-        <!-- 🔍 SEARCH BAR -->
-        <div class="search">
-            <input type="text" placeholder="Enter city name..." spellcheck="false">
-
-            <button class="search-btn">
-                <img src="images/search.png" alt="search">
-            </button>
-
-            <button class="location-btn" title="Use my location">
-                <img src="images/placeholder.png" alt="location">
-            </button>
-        </div>
-
-        <!-- 🌧️ WEATHER ANIMATIONS -->
-        <div class="rain"></div>
-        <div class="clouds"></div>
-        <div class="lightning"></div>
-
-        <!-- 🌦️ WEATHER INFO -->
-        <div class="weather">
-            <img src="images/rain.png" class="weather-icon" alt="weather icon">
-
-            <h1 class="temp">--°c</h1>
-            <h2 class="city">Loading...</h2>
-
-            <div class="details">
-
-                <div class="col">
-                    <img src="images/humidity.png" alt="humidity">
-                    <div class="humidity">--%</div>
-                    <p>Humidity</p>
-                </div>
-
-                <div class="col">
-                    <img src="images/wind.png" alt="wind">
-                    <div class="wind">-- km/h</div>
-                    <p>Wind Speed</p>
-                </div>
-
+        <!-- TOP BAR -->
+        <div class="topbar">
+            <div class="time-block">
+                <div class="current-time" id="currentTime">--:-- --</div>
+                <div class="current-date" id="currentDate">Loading...</div>
+            </div>
+            <div class="live-badge">
+                <span class="live-dot"></span>
+                <span class="live-text">Live</span>
             </div>
         </div>
 
+        <!-- SEARCH -->
+        <div class="search">
+            <input type="text" placeholder="Enter city name..." spellcheck="false" id="searchInput">
+            <button class="search-btn" title="Search">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </button>
+            <button class="location-btn" title="Use my location">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </button>
+        </div>
+
+        <!-- ANIMATIONS -->
+        <div class="rain" id="rain"></div>
+        <div class="clouds"></div>
+        <div class="lightning"></div>
+
+        <!-- WEATHER BODY -->
+        <div class="weather">
+
+            <div class="condition-badge" id="conditionBadge">Loading...</div>
+
+            <img src="images/rain.png" class="weather-icon" id="weatherIcon" alt="weather icon">
+
+            <div class="temp-row">
+                <h1 class="temp" id="temp">--°c</h1>
+            </div>
+
+            <p class="feels-like">Feels like <span id="feelsLike">--°c</span></p>
+
+            <h2 class="city" id="city">Detecting...</h2>
+            <p class="city-sub" id="citySub">&nbsp;</p>
+
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <svg class="stat-svg" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                    <div class="stat-val" id="humidity">--%</div>
+                    <div class="stat-label">Humidity</div>
+                </div>
+                <div class="stat-card">
+                    <svg class="stat-svg" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1 1 11 8H2"/><path d="M12.42 19.42A2 2 0 1 0 14 16H2"/><path d="M16.27 7.27A2.5 2.5 0 1 1 18.5 11H2"/></svg>
+                    <div class="stat-val" id="wind">-- km/h</div>
+                    <div class="stat-label">Wind</div>
+                </div>
+                <div class="stat-card">
+                    <svg class="stat-svg" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg>
+                    <div class="stat-val" id="visibility">-- km</div>
+                    <div class="stat-label">Visibility</div>
+                </div>
+                <div class="stat-card">
+                    <svg class="stat-svg" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                    <div class="stat-val" id="pressure">-- hPa</div>
+                    <div class="stat-label">Pressure</div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <!-- ⚡ SCRIPT -->
     <script>
         const apikey = "364b34e7b1a639591a6e4f93f4d48f66";
         const apiurlCity = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
         const apiurlCoords = "https://api.openweathermap.org/data/2.5/weather";
 
-        // Elements
-        const searchBox = document.querySelector(".search input");
-        const searchBtn = document.querySelector(".search-btn");
-        const locationBtn = document.querySelector(".location-btn");
-        const weatherIcon = document.querySelector(".weather-icon");
+        const searchInput = document.getElementById("searchInput");
+        const weatherIcon = document.getElementById("weatherIcon");
 
-        // 🌧️ CREATE RAIN
+        // ── CLOCK ──
+        function updateClock() {
+            const now = new Date();
+            const t = document.getElementById("currentTime");
+            const d = document.getElementById("currentDate");
+            if (t) t.textContent = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+            if (d) d.textContent = now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // ── STARS ──
+        (function createStars() {
+            const c = document.getElementById("stars");
+            if (!c) return;
+            for (let i = 0; i < 70; i++) {
+                const s = document.createElement("div");
+                s.className = "star";
+                s.style.cssText = `top:${Math.random()*100}%;left:${Math.random()*100}%;opacity:${0.15+Math.random()*0.55};width:${1+Math.random()*1.5}px;height:${1+Math.random()*1.5}px;animation-delay:${Math.random()*4}s`;
+                c.appendChild(s);
+            }
+        })();
+
+        // ── RAIN ──
         function createRain() {
-            const rain = document.querySelector(".rain");
+            const rain = document.getElementById("rain");
             rain.innerHTML = "";
-
             for (let i = 0; i < 60; i++) {
-                let drop = document.createElement("span");
+                const drop = document.createElement("span");
                 drop.style.left = Math.random() * 100 + "%";
-                drop.style.animationDuration = (0.5 + Math.random()) + "s";
+                drop.style.animationDuration = (0.4 + Math.random() * 0.7) + "s";
+                drop.style.animationDelay = Math.random() * 1 + "s";
                 rain.appendChild(drop);
             }
         }
 
-        // 🔍 CITY SEARCH
+        // ── FETCH BY CITY ──
         async function checkWeather(city) {
-            if (city === "") return;
-
-            showLoading("Loading...");
-
-            let response = await fetch(apiurlCity + city + `&appid=${apikey}`);
-            let data = await response.json();
-
-            if (data.cod === "404") {
-                alert("City not found ❌");
-                return;
-            }
-
-            updateUI(data);
+            if (!city.trim()) return;
+            showLoading();
+            try {
+                const res = await fetch(apiurlCity + city + `&appid=${apikey}`);
+                const data = await res.json();
+                if (data.cod === "404") { alert("City not found ❌"); return; }
+                updateUI(data);
+            } catch { alert("Connection error. Try again."); }
         }
 
-        // 📍 LOCATION WEATHER
+        // ── FETCH BY COORDS ──
         async function getWeatherByLocation(lat, lon) {
-            showLoading("Detecting...");
-
-            let response = await fetch(
-                `${apiurlCoords}?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`
-            );
-
-            let data = await response.json();
-
-            updateUI(data);
+            showLoading();
+            try {
+                const res = await fetch(`${apiurlCoords}?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`);
+                const data = await res.json();
+                updateUI(data);
+            } catch { alert("Failed to get weather."); }
         }
 
-        // 🌍 AUTO LOCATION ON LOAD
+        // ── AUTO LOAD ──
         window.addEventListener("load", () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    (pos) => {
-                        getWeatherByLocation(pos.coords.latitude, pos.coords.longitude);
-                    },
-                    () => {
-                        checkWeather("New York");
-                    }
+                    p => getWeatherByLocation(p.coords.latitude, p.coords.longitude),
+                    () => checkWeather("New York")
                 );
             } else {
                 checkWeather("New York");
             }
         });
 
-        // 🎨 UPDATE UI
+        // ── UPDATE UI ──
         function updateUI(data) {
-            document.querySelector(".city").innerHTML = data.name;
-            document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
-            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
-            document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+            const cond = data.weather[0].description;
+            const low  = cond.toLowerCase();
 
-           const condition = data.weather[0].description.toLowerCase();
+            document.getElementById("city").textContent      = data.name;
+            document.getElementById("citySub").textContent   = data.sys.country || "";
+            document.getElementById("temp").textContent      = Math.round(data.main.temp) + "°c";
+            document.getElementById("feelsLike").textContent = Math.round(data.main.feels_like) + "°c";
+            document.getElementById("humidity").textContent  = data.main.humidity + "%";
+            document.getElementById("wind").textContent      = Math.round(data.wind.speed * 10) / 10 + " km/h";
+            document.getElementById("pressure").textContent  = data.main.pressure + " hPa";
+            document.getElementById("visibility").textContent = data.visibility ? (data.visibility / 1000).toFixed(1) + " km" : "N/A";
 
-// Reset effects
-document.querySelector(".rain").innerHTML = "";
-document.querySelector(".clouds").style.display = "none";
+            const badge = document.getElementById("conditionBadge");
+            badge.textContent = toTitle(cond);
 
-if (condition.includes("cloud")) {
-    weatherIcon.src = "images/clouds.png";
-    document.querySelector(".clouds").style.display = "block";
+            // Reset
+            document.getElementById("rain").innerHTML = "";
+            document.querySelector(".clouds").style.display = "none";
+            document.body.className = "";
 
-} else if (condition.includes("clear")) {
-    weatherIcon.src = "images/clear.png";
+            // Set icon + badge color + body class
+            const themes = {
+                thunderstorm: { src: "images/rain.png",   bg: "rgba(150,100,255,.15)", bc: "rgba(150,100,255,.4)", col: "#c084fc", body: "" },
+                drizzle:      { src: "images/drizzle.png",bg: "rgba(100,180,255,.15)", bc: "rgba(100,180,255,.4)", col: "#7dd3fc", body: "" },
+                rain:         { src: "images/rain.png",   bg: "rgba(100,180,255,.15)", bc: "rgba(100,180,255,.4)", col: "#7dd3fc", body: "" },
+                snow:         { src: "images/snow.png",   bg: "rgba(200,240,255,.15)", bc: "rgba(200,240,255,.4)", col: "#bae6fd", body: "" },
+                mist:         { src: "images/mist.png",   bg: "rgba(200,200,200,.15)", bc: "rgba(200,200,200,.3)", col: "#d1d5db", body: "" },
+                fog:          { src: "images/mist.png",   bg: "rgba(200,200,200,.15)", bc: "rgba(200,200,200,.3)", col: "#d1d5db", body: "" },
+                haze:         { src: "images/mist.png",   bg: "rgba(200,200,200,.15)", bc: "rgba(200,200,200,.3)", col: "#d1d5db", body: "" },
+                cloud:        { src: "images/clouds.png", bg: "rgba(180,180,220,.15)", bc: "rgba(180,180,220,.3)", col: "#c7d2fe", body: "cloudy" },
+                clear:        { src: "images/clear.png",  bg: "rgba(255,220,50,.15)",  bc: "rgba(255,220,50,.4)",  col: "#fde68a", body: "sunny" },
+            };
 
-} else if (condition.includes("rain")) {
-    weatherIcon.src = "images/rain.png";
-    createRain();
+            let theme = themes.clear;
+            for (const [key, val] of Object.entries(themes)) {
+                if (low.includes(key)) { theme = val; break; }
+            }
 
-} else if (condition.includes("drizzle")) {
-    weatherIcon.src = "images/drizzle.png";
-    createRain();
-
-} else if (condition.includes("mist") || condition.includes("fog")) {
-    weatherIcon.src = "images/mist.png";
-
-} else if (condition.includes("snow")) {
-    weatherIcon.src = "images/snow.png";
-
-} else if (condition.includes("thunderstorm")) {
-    weatherIcon.src = "images/rain.png";
-    createRain();
-    triggerLightning();
-
-} else {
-    weatherIcon.src = "images/clear.png"; // fallback
-}}
-
-function triggerLightning() {
-    const lightning = document.querySelector(".lightning");
-
-    lightning.classList.add("flash");
-
-    setTimeout(() => {
-        lightning.classList.remove("flash");
-    }, 200);
-}
-
-        // ⏳ LOADING STATE
-        function showLoading(text) {
-            document.querySelector(".city").innerHTML = text;
-            document.querySelector(".temp").innerHTML = "--";
+            weatherIcon.src = theme.src;
+            badge.style.background   = theme.bg;
+            badge.style.borderColor  = theme.bc;
+            badge.style.color        = theme.col;
+            if (theme.body) document.body.classList.add(theme.body);
+            if (low.includes("cloud")) document.querySelector(".clouds").style.display = "block";
+            if (low.includes("rain") || low.includes("drizzle") || low.includes("thunder")) createRain();
+            if (low.includes("thunder")) triggerLightning();
         }
 
-        // 🖱️ EVENTS
-        searchBtn.addEventListener("click", () => {
-            checkWeather(searchBox.value);
-        });
+        function triggerLightning() {
+            const l = document.querySelector(".lightning");
+            l.classList.add("flash");
+            setTimeout(() => l.classList.remove("flash"), 250);
+        }
 
-        searchBox.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                checkWeather(searchBox.value);
-            }
-        });
+        function showLoading() {
+            document.getElementById("city").textContent          = "Detecting...";
+            document.getElementById("temp").textContent          = "--°c";
+            document.getElementById("conditionBadge").textContent = "Loading...";
+            document.getElementById("citySub").textContent       = "";
+            document.getElementById("feelsLike").textContent     = "--°c";
+        }
 
-        locationBtn.addEventListener("click", () => {
+        function toTitle(s) {
+            return s.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1));
+        }
+
+        // ── EVENTS ──
+        document.querySelector(".search-btn").addEventListener("click", () => checkWeather(searchInput.value));
+        searchInput.addEventListener("keypress", e => { if (e.key === "Enter") checkWeather(searchInput.value); });
+        document.querySelector(".location-btn").addEventListener("click", () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        getWeatherByLocation(
-                            position.coords.latitude,
-                            position.coords.longitude
-                        );
-                    },
-                    () => {
-                        alert("Location access denied ❌");
-                    }
+                    p => getWeatherByLocation(p.coords.latitude, p.coords.longitude),
+                    () => alert("Location access denied ❌")
                 );
             }
         });
