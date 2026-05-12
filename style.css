@@ -9,24 +9,26 @@
 
 html, body {
     width: 100%;
-    height: 100%;
-    overflow: hidden;
+    min-height: 100%;
+    overflow-x: hidden;
 }
 
 /* ── BODY: fills full screen, centers card ── */
 body {
     background: linear-gradient(160deg, #0d0b2b 0%, #1a1650 45%, #0f2040 100%);
-    height: 100dvh;          /* dynamic viewport height — accounts for mobile browser chrome */
-    min-height: 100vh;       /* fallback */
+    height: 100dvh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 12px;
     position: relative;
-    overflow: hidden;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
     transition: background 0.8s ease;
 }
-
 body.sunny  { background: linear-gradient(160deg, #0d1b4b 0%, #1a3a6e 45%, #0f2855 100%); }
 body.cloudy { background: linear-gradient(160deg, #0f1733 0%, #1c2350 45%, #131d3a 100%); }
 
