@@ -133,15 +133,31 @@
 
         // ── FETCH BY CITY ──
         async function checkWeather(city) {
-            if (!city.trim()) return;
-            showLoading();
-            try {
-                const res = await fetch(apiurlCity + city + `&appid=${apikey}`);
-                const data = await res.json();
-                if (data.cod === "404") { alert("City not found ❌"); return; }
-                updateUI(data);
-            } catch { alert("Connection error. Try again."); }
+
+    city = city.trim();
+
+    if (!city) {
+        alert("Please enter a city");
+        return;
+    }
+
+    showLoading();
+
+    try {
+        const res = await fetch(apiurlCity + city + `&appid=${apikey}`);
+        const data = await res.json();
+
+        if (data.cod === "404") {
+            alert("Try another location");
+            return; 
         }
+
+        updateUI(data);
+
+    } catch {
+        alert("Connection error. Try again.");
+    }
+}
 
         // ── FETCH BY COORDS ──
         async function getWeatherByLocation(lat, lon) {
